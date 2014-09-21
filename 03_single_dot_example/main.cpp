@@ -13,7 +13,7 @@ int main()
     unsigned win = initgl.createGLWindow("Example 3",800,600);
     EngGLPlatform* platform = initgl.getEngGLPlatform(win);
     glfwSetInputMode(platform->controll_window, GLFW_STICKY_KEYS, GL_TRUE);
-    EngShader shader;
+    EngGLShader shader;
     std:: ifstream in("vert.glsl");
     std::string sources;
     getline(in,sources,'\0');
@@ -31,14 +31,10 @@ int main()
     if (log.size() > 0) return 1;
     float color[4];
     float pos[4];
-    EngGLAttribute value1,value2;
+    EngGLAttribute value1(&shader,"vcolor"),value2(&shader,"position");
     GLuint VAO;
     glGenVertexArrays(1,&VAO);
     glBindVertexArray(VAO);
-    value1.setShader(&shader);
-    value1.bind("vcolor");
-    value2.setShader(&shader);
-    value2.bind("position");
     shader.bind_program();
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     glPointSize(5.0);

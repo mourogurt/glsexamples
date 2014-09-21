@@ -13,9 +13,7 @@ int main()
     unsigned win1 = initgl.createGLWindow("Example 4",800,600);
     EngGLPlatform* platform = initgl.getEngGLPlatform(win1);
     glfwSetInputMode(platform->controll_window, GLFW_STICKY_KEYS, GL_TRUE);
-    EngShader shader;
-    EngGLAttribute attrib1;
-    EngGLVBO buf1;
+    EngGLShader shader;
     string src;
     ifstream in("vert.glsl");
     getline(in,src,'\0');
@@ -30,6 +28,7 @@ int main()
     for (unsigned i = 0; i < log.size(); i++)
         cout << log[i]<<endl;
     if (log.size() > 0) return 1;
+    shader.bind_program();
     GLuint VAO;
     GLfloat pos[] = {
             -1.0f, -1.0f, 0.0f, 1.0f,
@@ -39,14 +38,11 @@ int main()
     GLfloat color[4] = {0.5f,0.0f,0.0f,1.0f};
     glGenVertexArrays(1,&VAO);
     glBindVertexArray(VAO);
-    attrib1.setShader(&shader);
-    attrib1.bind("vcolor");
+    EngGLAttribute attrib1(&shader,"vcolor");
+    EngGLVBO buf1(&shader,"pos");
     attrib1.write(color,4);
     buf1.allocate(sizeof(pos),GL_STATIC_DRAW,pos);
-    buf1.setShader(&shader);
-    buf1.setLocation("pos");
     glClearColor(0.3f,0.3f,0.3f,1.0f);
-    shader.bind_program();
     buf1.bind();
     buf1.enable();
     do
