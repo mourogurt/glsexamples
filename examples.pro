@@ -7,4 +7,5 @@ SUBDIRS += \
     04_triangle_example \
     05_mvp_uniform_example \
     06_uniform_transform \
-    07_cairo_tiling_ubo
+    07_cairo_tiling_ubo \
+    08_libvpx_example

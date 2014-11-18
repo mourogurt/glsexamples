@@ -18,11 +18,11 @@ int main()
     ifstream in("vert.glsl");
     getline(in,src,'\0');
     in.close();
-    shader.compileShaderStage(GL_VERTEX_SHADER,src);
+    shader.compileShaderStage(gl::GLenum(GL_VERTEX_SHADER),src);
     in.open("frag.glsl");
     getline(in,src,'\0');
     in.close();
-    shader.compileShaderStage(GL_FRAGMENT_SHADER,src);
+    shader.compileShaderStage(gl::GLenum(GL_FRAGMENT_SHADER),src);
     shader.linkShader();
     auto log = shader.getErrLog();
     for (unsigned i = 0; i < log.size(); i++)
@@ -36,12 +36,12 @@ int main()
              0.0f,  1.0f, 0.0f, 1.0f,
     };
     GLfloat color[4] = {0.5f,0.0f,0.0f,1.0f};
-    glGenVertexArrays(1,&VAO);
-    glBindVertexArray(VAO);
+    gl::glGenVertexArrays(1,&VAO);
+    gl::glBindVertexArray(VAO);
     EngGLAttribute attrib1(&shader,"vcolor");
     EngGLVBO buf1(&shader,"pos");
     attrib1.write(color,4);
-    buf1.allocate(sizeof(pos),GL_STATIC_DRAW,pos);
+    buf1.allocate(sizeof(pos),gl::GLenum(GL_STATIC_DRAW),pos);
     glClearColor(0.3f,0.3f,0.3f,1.0f);
     buf1.bind();
     buf1.enable();
@@ -55,7 +55,7 @@ int main()
              glfwWindowShouldClose(platform->controll_window) == 0);
     buf1.disable();
     buf1.clear();
-    glDeleteVertexArrays(1,&VAO);
+    gl::glDeleteVertexArrays(1,&VAO);
     return 0;
 }
 

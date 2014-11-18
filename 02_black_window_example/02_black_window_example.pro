@@ -8,13 +8,12 @@ SOURCES += main.cpp
 INCLUDEPATH += /usr/local/include/backend/ \
               /usr/local/include/system/
 
-LIBS += -lbackend -lsystem
+LIBS += -lbackend -lsystem -lglbinding
 QMAKE_CXXFLAGS += -std=c++11
 win32: LIBS += -lopengl32 -lGLEW -lglfw3
 unix {
     CONFIG += link_pkgconfig
     PKGCONFIG += gl
-    PKGCONFIG += glew
     PKGCONFIG += glfw3
 }
 

@@ -1,7 +1,7 @@
-#include <engInit.hpp>
-#include <engShader.hpp>
-#include <engValue.hpp>
-#include <engBuffer.hpp>
+#include <backend/engInit.hpp>
+#include <backend/engShader.hpp>
+#include <backend/engValue.hpp>
+#include <backend/engBuffer.hpp>
 #include <iostream>
 #include <fstream>
 #include <glm/glm.hpp>
@@ -19,11 +19,11 @@ int main()
     ifstream in("vert.glsl");
     getline(in,src,'\0');
     in.close();
-    shader.compileShaderStage(GL_VERTEX_SHADER,src);
+    shader.compileShaderStage(gl::GLenum(GL_VERTEX_SHADER),src);
     in.open("frag.glsl");
     getline(in,src,'\0');
     in.close();
-    shader.compileShaderStage(GL_FRAGMENT_SHADER,src);
+    shader.compileShaderStage(gl::GLenum(GL_FRAGMENT_SHADER),src);
     shader.linkShader();
     auto log = shader.getErrLog();
     for (unsigned i = 0; i < log.size(); i++)
@@ -31,8 +31,8 @@ int main()
     if (log.size() > 0) return 1;
     shader.bind_program();
     GLuint VAO;
-    glGenVertexArrays(1,&VAO);
-    glBindVertexArray(VAO);
+    gl::glGenVertexArrays(1,&VAO);
+    gl::glBindVertexArray(VAO);
     GLfloat vertex_positions[] =
     {
         -1.0f,-1.0f,-1.0f,
@@ -111,10 +111,10 @@ int main()
         0.982f,  0.099f,  0.879f
     };
     EngGLVBO vbo(&shader,"pos"), vbo2(&shader,"color");
-    vbo.allocate(sizeof(vertex_positions),GL_STATIC_DRAW,(GLvoid*)vertex_positions);
+    vbo.allocate(sizeof(vertex_positions),gl::GLenum(GL_STATIC_DRAW),vertex_positions);
     vbo.bind(3);
     vbo.enable();
-    vbo2.allocate(sizeof(g_color_buffer_data),GL_STATIC_DRAW,(GLvoid*)g_color_buffer_data);
+    vbo2.allocate(sizeof(g_color_buffer_data),gl::GLenum(GL_STATIC_DRAW),g_color_buffer_data);
     vbo2.bind(3);
     vbo2.enable();
     EngGLUniform unif1(&shader,"proj"), unif2(&shader,"view");
@@ -123,9 +123,9 @@ int main()
     glm::mat4 View = glm::lookAt(cam_position, glm::vec3(0,0,0), glm::vec3(0,1,0));
     unif1.write(&Projection[0][0],4,4,1);
     unif2.write(&View[0][0],4,4,1);
-    glClearColor(0.3f,0.3f,0.3f,1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    gl::glClearColor(0.3f,0.3f,0.3f,1.0f);
+    gl::glEnable(gl::GLenum(GL_DEPTH_TEST));
+    gl::glDepthFunc(gl::GLenum(GL_LESS));
     do
     {
         if (glfwGetKey(platform->controll_window, GLFW_KEY_D ) == GLFW_PRESS)
@@ -164,7 +164,7 @@ int main()
             View = glm::lookAt(cam_position, glm::vec3(0,0,0), glm::vec3(0,1,0));
             unif2.write(&View[0][0],4,4,1);
         }
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gl::glClear(gl::ClearBufferMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         vbo.render(36);
         glfwSwapBuffers(platform->controll_window);
         glfwPollEvents();
@@ -174,7 +174,7 @@ int main()
     vbo.clear();
     vbo2.disable();
     vbo2.clear();
-    glDeleteVertexArrays(1,&VAO);
+    gl::glDeleteVertexArrays(1,&VAO);
     return 0;
 }
 

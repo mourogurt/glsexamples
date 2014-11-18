@@ -1,0 +1,2 @@
+Использовал libyuv, glbinding(https://github.com/hpicgs/glbinding), glfw3, libvpx, nestegg(https://github.com/kinetiknz/nestegg)
+Использовал свой движок (https://github.com/maxis11/glsengine).

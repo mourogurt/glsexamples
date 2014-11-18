@@ -18,12 +18,12 @@ int main()
     std::string sources;
     getline(in,sources,'\0');
     in.close();
-    shader.compileShaderStage(GL_VERTEX_SHADER,sources);
+    shader.compileShaderStage(gl::GLenum(GL_VERTEX_SHADER),sources);
     in.open("frag.glsl");
     sources.clear();
     getline(in,sources,'\0');
     in.close();
-    shader.compileShaderStage(GL_FRAGMENT_SHADER,sources);
+    shader.compileShaderStage(gl::GLenum(GL_FRAGMENT_SHADER),sources);
     shader.linkShader();
     auto log = shader.getErrLog();
     for (unsigned i = 0; i < log.size(); i++)
@@ -33,8 +33,8 @@ int main()
     float pos[4];
     EngGLAttribute value1(&shader,"vcolor"),value2(&shader,"position");
     GLuint VAO;
-    glGenVertexArrays(1,&VAO);
-    glBindVertexArray(VAO);
+    gl::glGenVertexArrays(1,&VAO);
+    gl::glBindVertexArray(VAO);
     shader.bind_program();
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     glPointSize(5.0);
@@ -59,7 +59,7 @@ int main()
         glfwPollEvents();
     } while (glfwGetKey(platform->controll_window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
              glfwWindowShouldClose(platform->controll_window) == 0);
-    glDeleteVertexArrays(1,&VAO);
+    gl::glDeleteVertexArrays(1,&VAO);
     shader.cleanShader();
     initgl.clearALL();
     return 0;
