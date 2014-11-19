@@ -10,7 +10,7 @@ INCLUDEPATH += /usr/local/include/backend/ \
 
 LIBS += -lbackend -lsystem -lglbinding -lyuv
 QMAKE_CXXFLAGS += -std=c++11
-win32: LIBS += -lopengl32 -lglfw3 -lvpx -lyuv -lglbinding
+win32: LIBS += -lopengl32 -lglfw3 -lvpx -lnestegg
 unix {
     CONFIG += link_pkgconfig
     PKGCONFIG += gl

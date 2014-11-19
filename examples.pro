@@ -8,4 +8,5 @@ SUBDIRS += \
     05_mvp_uniform_example \
     06_uniform_transform \
     07_cairo_tiling_ubo \
-    08_libvpx_example
+    08_libvpx_example \
+    09_framebuffer_example

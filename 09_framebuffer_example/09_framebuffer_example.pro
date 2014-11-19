@@ -8,26 +8,27 @@ SOURCES += main.cpp
 INCLUDEPATH += /usr/local/include/backend/ \
               /usr/local/include/system/
 
-LIBS += -lbackend -lsystem -lglbinding
+LIBS += -lbackend -lsystem -lglbinding -lyuv
 QMAKE_CXXFLAGS += -std=c++11
-win32: LIBS += -lopengl32 -lglfw3
+win32: LIBS += -lopengl32 -lglfw3 -lvpx
 unix {
     CONFIG += link_pkgconfig
     PKGCONFIG += gl
     PKGCONFIG += glfw3
+    PKGCONFIG += vpx
 }
-
-include(deployment.pri)
-qtcAddDeployment()
 
 OTHER_FILES += \
     vert.glsl \
-    frag.glsl
+    frag.glsl \
+#    passvert.glsl \
+#    passfrag.glsl
 
 shaders_copy.commands += $(COPY_DIR) $$PWD/vert.glsl $$OUT_PWD/; \
-                         $(COPY_DIR) $$PWD/frag.glsl $$OUT_PWD/;
+                         $(COPY_DIR) $$PWD/frag.glsl $$OUT_PWD/; #\
+#                         $(COPY_DIR) $$PWD/passvert.glsl $$OUT_PWD/; \
+#                         $(COPY_DIR) $$PWD/passfrag.glsl $$OUT_PWD/;
 first.depends = $(first) shaders_copy
 export(first.depends)
 export(shaders_copy.commands)
 QMAKE_EXTRA_TARGETS += first shaders_copy
-
